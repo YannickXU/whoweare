@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>我们是谁</title>
+        <link href="//cdn.bootcss.com/element-ui/1.4.2/theme-default/index.css" rel="stylesheet">
+        <script src="//cdn.bootcss.com/p5.js/0.5.12/p5.min.js"></script>
+        <script src="//cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+        <script src="//cdn.bootcss.com/element-ui/1.4.2/index.js"></script>
+    </head>
+    <body>
+        <style>
+            body{
+                padding: 10px;
+            }
+            .ipt{
+                width:240px;
+                margin:3px;
+            }
+            .sv{
+                width:140px;
+            }
+        </style>
+
+        <div id="app">
+            <div>
+                <h1>
+                    我们是谁？
+                </h1>
+            </div>
+            <div>
+                <el-input class="ipt" v-model="l1_left"></el-input>
+                <el-input class="ipt" v-model="l1_right"></el-input>
+            </div>
+            <div>
+                <el-input class="ipt" v-model="l2_left"></el-input>
+                <el-input class="ipt" v-model="l2_right"></el-input>
+            </div>
+            <div>
+                <el-input class="ipt" v-model="l3_left"></el-input>
+                <el-input class="ipt" v-model="l3_right"></el-input>
+            </div>
+            <div style="margin: 10px">
+                <el-button class="sv" @click="save">
+                    存图
+                </el-button>
+            </div>
+        </div>
+
+        <script>
+            window.vm = new Vue({
+                el:"#app",
+                data:{
+                    l1_left:"我们是谁？",
+                    l1_right:"甲方!",
+                    l2_left:"我们要做什么？",
+                    l2_right:"不知道!",
+                    l3_left:"什么时候要？",
+                    l3_right:"现在要!",
+                },
+                watch:{
+                    l1_left:gaoshi,
+                    l2_left:gaoshi,
+                    l3_left:gaoshi,
+                    l1_right:gaoshi,
+                    l2_right:gaoshi,
+                    l3_right:gaoshi,
+                },
+                methods:{
+                    "gaoshi":gaoshi,
+                    "save":savei
+                },
+                computed:{
+                    "mg1":function(){
+                        var result = 300 - this.l1_right.length * 5;
+                        if (result < 220) {
+                            return 220
+                        }
+                        return result;
+                    },
+                    "mg2":function(){
+                        var result = 300- this.l2_right.length * 5;
+                        if (result < 220) {
+                            return 220
+                        }
+                        return result;
+                    },
+                    "mg3":function(){
+                        var result = 300- this.l3_right.length * 5;
+                        if (result < 220) {
+                            return 220
+                        }
+                        return result;
+                    },
+
+                }
+            })
+            function preload() {
+                img = loadImage("back.jpg");
+            }
+            function setup() {
+                createCanvas(440, 486);
+                image(img, 0, 0);
+                gaoshi()
+            }
+            function savei(){
+                saveCanvas('image.png')
+            }
+            function gaoshi(){
+                image(img, 0, 0);
+                textSize(20);
+                text(vm.l1_left, 30, 30, 200);
+                text(vm.l1_right, vm.mg1, 30, 200);
+                text(vm.l2_left, 30, 200, 200);
+                text(vm.l2_right, vm.mg2, 200, 200);
+                text(vm.l3_left, 30, 370, 200);
+                text(vm.l3_right, vm.mg3, 370, 200);
+            }
+        </script>
+    </body>
+</html>
